@@ -1,0 +1,51 @@
+{% extends "auctions/layout.html" %}
+
+{% block categories %}active{% endblock %}
+
+{% block body %}
+    <div class="container" id="header">
+        <h2>Categories</h2>
+    
+        <div class="dropdown" id="category">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                Filter
+            </a>
+        
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                {% for cat in categories %}
+                    <li><a class="dropdown-item" href="{% url 'categories' cat.name %}">{{ cat.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        {% if items == None %}
+            <h3>Select a Categories</h3>
+        {% else %}
+            <h3>Items in {{ cat_name }} Category</h3>
+            <div class="row">
+                {% for item in items %}
+                    <div class="col-sm-4">
+                        <div class="card index-card">
+    
+                            <img class="card-img-top index-img" src="{{ item.image }}" {% if item.status == 'Closed' %}style="filter: grayscale(100%);"{% endif %}>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ item.title }}
+                                    {% if item.status == "Closed" %}
+                                        <small class="text-danger status">{{ item.status }}</small>
+                                    {% endif %}
+                                </h5>
+                                <strong>$ {{ item.price }}</strong>
+                                <p class="card-text">{{ item.description }}</p>
+                                <small class="text-muted">Created : {{ item.creation_date }}</small><br>
+                                <a href="{% url 'details' item.id %}" class="btn btn-primary details_btn">See Details</a>
+                            </div>
+    
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Auctions{% endblock %}</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'auctions/styles.css' %}">
+    </head>
+    <body>
+
+        <nav class="navbar sticky-top navbar-dark bg-dark">
+            <div class="container-fluid">
+                <!-- Navbar content -->
+                <h1>
+                    {% load static %} <img src="{% static 'auctions/Auctions.png' %}" alt="home" id="logo"/>
+                    <span style="font-size: 30%;">
+                        {% if user.is_authenticated %}
+                            Signed in as <strong>{{ user.username }}</strong>.
+                        {% else %}
+                            Not signed in.
+                        {% endif %}
+                    </span>
+                </h1>
+
+                <ul class="nav nav-pills">
+                    <li class="nav-item">
+                        <a class="nav-link {% block act_list %}{% endblock %}" href="{% url 'index' %}">Active Listings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block categories %}{% endblock %}" href="{% url 'categories' %}">Categories</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link {% block create %}{% endblock %}" href="{% url 'new' %}">Create</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% block watchlist %}{% endblock %}" href="{% url 'see_watchlist' %}">
+                                Watchlist
+                                <!-- <span class="badge rounded-pill bg-warning">4</span> -->
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link {% block login %}{% endblock %}" href="{% url 'login' %}">Log In</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% block register %}{% endblock %}" href="{% url 'register' %}">Register</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+
+        <div class="content">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

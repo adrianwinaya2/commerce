@@ -1,0 +1,20 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Create New Listing</h2>
+
+    <div class="row">
+
+        {% for item in items %}
+            <form action="{% url 'index' %}">
+
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <input class="btn btn-primary" type="submit">
+            </form>
+        {% endfor %}
+
+    </div>
+
+{% endblock %}
